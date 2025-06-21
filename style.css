@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  background: #181818;
+  color: #f5f5f5;
+  font-family: 'Poppins', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.content-wrap {
+  flex: 1 0 auto;
+}
+
+.navbar, .footer, .card, .developer-info, .social-links, .form-control, .btn {
+  border-radius: 11.5rem !important;
+  background: rgba(40, 40, 40, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37), 0 0 16px 2px #FFA72633;
+  backdrop-filter: blur(8px);
+}
+
+.footer {
+  background: rgba(24, 24, 24, 0.85) !important;
+  border-top: 1px solid #333;
+  color: #f5f5f5;
+}
+
+.developer-info {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.developer-info .text-muted {
+  color: #f5f5f5 !important;
+  opacity: 0.8;
+}
+
+h1, h2, h5, .navbar-brand, .card-title {
+  color: #FFA726 !important;
+  letter-spacing: 1px;
+}
+
+a, .btn-link, .nav-link, .social-link {
+  color: #FFA726 !important;
+  transition: color 0.2s, box-shadow 0.2s;
+}
+
+a:hover, .btn-link:hover, .nav-link:hover, .social-link:hover {
+  color: #fff !important;
+  text-shadow: 0 0 8px #FFA726, 0 0 16px #FFA72699;
+}
+
+/* --- KNAPPSTILAR --- */
+/* Fylld knapp (primär) */
+.btn-primary, .btn-success {
+  background: #FFA726 !important;
+  border: 1px solid #FFA726 !important;
+  color: #181818 !important;
+  box-shadow: 0 0 12px 2px #FFA72644;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover, .btn-success:hover {
+  background: #181818 !important;
+  color: #FFA726 !important;
+  box-shadow: 0 0 16px 4px #FFA72677;
+}
+
+/* Outline-knapp (sekundär) */
+.btn-outline-primary {
+  background: transparent !important;
+  border: 1px solid #FFA726 !important;
+  color: #FFA726 !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+}
+.btn-outline-primary:hover {
+  background: #FFA726 !important;
+  color: #181818 !important;
+  box-shadow: 0 0 12px 2px #FFA72644 !important;
+}
+
+/* Inaktiv knapp */
+.btn.disabled, .btn:disabled {
+    background: rgba(40, 40, 40, 0.5) !important;
+    border-color: rgba(80, 80, 80, 0.7) !important;
+    color: rgba(160, 160, 160, 0.6) !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+}
+
+.card {
+  border: none;
+  background: rgba(40, 40, 40, 0.7);
+  color: #f5f5f5;
+}
+
+.card-img-top {
+  background: transparent;
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: 0 0 16px 2px #FFA72633;
+}
+
+.profile-image, .rounded-circle {
+  border: 3px solid #FFA726;
+  box-shadow: 0 0 16px 2px #FFA72655;
+}
+
+.form-control {
+  background: rgba(40, 40, 40, 0.7);
+  color: #fff;
+  border: 1px solid #FFA726;
+}
+
+.form-control:focus {
+  border-color: #FFA726;
+  box-shadow: 0 0 8px #FFA726;
+  background: rgba(40, 40, 40, 0.9);
+  color: #fff;
+}
+
+#contact-success {
+  background: rgba(40, 40, 40, 0.8);
+  color: #FFA726;
+  border: 1px solid #FFA726;
+}
+
+.section {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  /* border-bottom: 2px solid rgba(255, 167, 38, 0.1); Line mellan sectioner*/
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.social-link {
+  color: #FFA726 !important;
+  font-size: 1.7rem;
+  margin: 0 0.5rem;
+  display: inline-block;
+  background: rgba(40, 40, 40, 0.7);
+  border-radius: 50%;
+  padding: 0.5rem;
+  box-shadow: 0 0 16px 2px #FFA72633;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.social-link:hover {
+  background: #FFA726;
+  color: #181818 !important;
+  box-shadow: 0 0 24px 4px #FFA72699;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #222;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFA726;
+  border-radius: 8px;
+}
+
+.footer .col-md-4.text-md-end p,
+.footer .col-md-4.text-md-end small {
+  color: #FFA726 !important;
+  text-shadow: 0 0 8px #FFA72655;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.footer .col-md-4.text-md-end small {
+  color: #fff !important;
+  opacity: 0.7;
+  font-size: 0.95em;
+}
+
+.footer-credit {
+  display: inline-block;
+}
+
+.footer-icon {
+  display: inline-block;
+  animation: pulse-glow 2.5s infinite ease-in-out;
+  color: #FFA726;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 4px #FFA72688;
+  }
+  50% {
+    transform: scale(1.15);
+    text-shadow: 0 0 12px #FFA726, 0 0 20px #FFA726;
+  }
+}
+
+/* --- Skills Section --- */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: #FFA726;
+}
+
+.skill-pill {
+  background: rgba(40, 40, 40, 0.7);
+  color: #FFA726;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  border: 1px solid #FFA72655;
+  box-shadow: 0 0 12px 2px #FFA72622;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.skill-pill:hover {
+  color: #181818;
+  background: #FFA726;
+  box-shadow: 0 0 16px 4px #FFA72677;
+  transform: translateY(-5px);
+}
