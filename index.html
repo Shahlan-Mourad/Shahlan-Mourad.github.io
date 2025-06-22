@@ -57,7 +57,7 @@
     <div id="contact" class="section">
       <div class="container">
           <h2>Contact</h2>
-          <form id="contact-form" action="https://formsubmit.co/datakille97@gmail.com" method="POST" class="col-md-8 col-lg-6 mx-auto">
+          <form id="contact-form" action="https://formsubmit.co/datakille97@gmail.com" method="POST" class="col-md-8 col-lg-6 mx-auto" target="hidden_iframe">
             <div class="mb-3">
               <label for="name" class="form-label">Name</label>
               <input type="text" class="form-control" id="name" name="name" required>
@@ -76,7 +76,7 @@
 
             <button type="submit" class="btn btn-primary">Send</button>
           </form>
-          <!-- This success message is no longer used by default, but can be kept for custom JS solutions later -->
+          <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
           <div id="contact-success" class="alert alert-success mt-3 d-none col-md-8 col-lg-6 mx-auto">Thank you for your message!</div>
       </div>
     </div>

@@ -66,13 +66,28 @@ function loadProjects() {
   });
 }
 
-// Kontaktformulär hanteras nu av Formsubmit.co
-document.addEventListener('DOMContentLoaded', function() {
+// Kontaktformulär: visa tack-meddelande direkt på sidan
+window.addEventListener('DOMContentLoaded', function() {
   loadProjects();
   // Sätter aktuellt år i footern
   const yearSpan = document.getElementById('footer-year');
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
+  }
+
+  // Hantera tack-meddelande för kontaktformulär
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('contact-success');
+  const iframe = document.getElementById('hidden_iframe');
+  if (form && successMsg && iframe) {
+    form.addEventListener('submit', function() {
+      // Vänta på att iframen laddas (dvs. Formsubmit svarar)
+      iframe.onload = function() {
+        form.reset();
+        form.style.display = 'none';
+        successMsg.classList.remove('d-none');
+      };
+    });
   }
 });
 
