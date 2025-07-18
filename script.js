@@ -4,6 +4,87 @@ function showSection(sectionId) {
   document.getElementById(sectionId).classList.remove('d-none');
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = [
+    {id: 'home', link: 'link-home'},
+    {id: 'about', link: 'link-about'},
+    {id: 'skills', link: 'link-skills'},
+    {id: 'projects', link: 'link-projects'},
+    {id: 'contact', link: 'link-contact'}
+  ];
+
+  // Beräkna offset baserat på sidebar och eventuell header
+  function calculateOffset() {
+    const sidebar = document.querySelector('.sidebar');
+    return sidebar ? sidebar.offsetHeight / 2 : 100;
+  }
+
+  // Uppdatera aktiva länkar
+  function updateActiveLink() {
+    const offset = calculateOffset();
+    const scrollPosition = window.scrollY + offset;
+    let currentSection = null;
+
+    sections.forEach(section => {
+      const element = document.getElementById(section.id);
+      if (element) {
+        const elementTop = element.offsetTop;
+        const elementBottom = elementTop + element.offsetHeight;
+
+        if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+          currentSection = section.link;
+        }
+      }
+    });
+
+    sections.forEach(section => {
+      const link = document.getElementById(section.link);
+      if (link) {
+        link.classList.toggle('active', section.link === currentSection);
+      }
+    });
+  }
+
+  // Smidig scroll för navigering
+  document.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        const offset = calculateOffset();
+        const sectionHeight = targetElement.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        let targetPosition;
+        if (sectionHeight < windowHeight) {
+          // Centrera sektionen vertikalt
+          targetPosition = targetElement.offsetTop - ((windowHeight - sectionHeight) / 2);
+        } else {
+          // Som tidigare, toppen av sektionen
+          targetPosition = targetElement.offsetTop - offset + 1;
+        }
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Optimera scroll-händelse
+  let scrollTimeout;
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(updateActiveLink, 50);
+  }, { passive: true });
+
+  // Initiera första gången
+  updateActiveLink();
+});
+
 // Projektdata (alla projekt du nämnt)
 const projects = [
   {
@@ -90,5 +171,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+
 
  
