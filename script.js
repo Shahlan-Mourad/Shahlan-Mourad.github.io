@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Uppdatera aktiva länkar
   function updateActiveLink() {
-    const offset = calculateOffset();
-    const scrollPosition = window.scrollY + offset;
+    // const offset = calculateOffset();
+    // const scrollPosition = window.scrollY + offset;
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
     let currentSection = null;
 
     sections.forEach(section => {
@@ -84,6 +85,40 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initiera första gången
   updateActiveLink();
 });
+
+// Dynamiskt skapa home-sektionen med unik bildklass och modern design
+(function() {
+  const contentArea = document.querySelector('.content-wrap');
+  if (!contentArea) return;
+
+  const homeSection = document.createElement('section');
+  homeSection.id = 'home';
+  homeSection.className = 'section home-modern';
+
+  homeSection.innerHTML = `
+    <div class="row align-items-center home-row">
+      <div class="col-md-7 text-start order-2 order-md-1 home-text-col">
+        <h1 class="home-title mb-2">
+          <span class="home-title-main">Hi! I'm Shahlan,</span><br>
+          <span class="home-title-sub">.NET Developer</span>
+        </h1>
+        <p class="mb-4 home-desc">I am a passionate .NET developer based in Stockholm, focused on building robust and scalable applications.</p>
+        <a href="#contact" class="btn btn-primary btn-lg home-connect-btn">Let's Connect</a>
+      </div>
+      <div class="col-md-5 d-flex justify-content-center align-items-center order-1 order-md-2">
+        <div class="profile-img-glow-frame">
+          <img src="https://github.com/Shahlan-Mourad.png" alt="Shahlan Mourad" class="profile-img-home">
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Ta bort eventuell befintlig home-section
+  const oldHome = document.getElementById('home');
+  if (oldHome) oldHome.remove();
+
+  contentArea.prepend(homeSection);
+})();
 
 // Projektdata (alla projekt du nämnt)
 const projects = [
@@ -171,6 +206,8 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+
 
 
 

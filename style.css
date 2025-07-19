@@ -29,15 +29,12 @@
     min-height: auto;
     margin: 0;
   }
- 
-  
   .content-wrap {
     max-width: 900px;
     margin: 0 auto;
     padding-left: 11.25rem;
     transition: margin var(--transition), padding var(--transition);
   }
-  
   .section {
     min-height: auto;
     width: 100%;
@@ -49,7 +46,6 @@
     text-align: center;
     min-height: 80vh;
   }
-  
   .section:last-of-type {
     border-bottom: none;
   }
@@ -72,7 +68,6 @@
     align-items: center;
     justify-content: center;
   }
-  
   .sidebar ul {
     list-style: none;
     padding: 0;
@@ -83,7 +78,6 @@
     justify-content: center;
     height: 100%;
   }
-  
   .sidebar-link {
     display: flex;
     flex-direction: column;
@@ -103,13 +97,11 @@
     border: none;
     border-radius: 0;
   }
-  
   .sidebar-link i {
     font-size: 1.2rem;
     margin-bottom: 6px;
     color: var(--primary);
   }
-  
   .sidebar-link:hover,
   .sidebar-link:focus,
   .sidebar-link.active {
@@ -118,11 +110,9 @@
     transform: none;
     text-shadow: 0 0 8px var(--primary);
   }
-  
   .sidebar-link.active {
     position: relative;
   }
-  
   .sidebar-link.active::after {
     content: '';
     position: absolute;
@@ -159,6 +149,91 @@
     border: 0.1875rem solid var(--primary);
     box-shadow: 0 0 1rem 0.125rem #EFBF0455;
   }
+  /* Home-sektion: responsiv layout */
+  #home .row.home-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  #home .profile-img-home {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--primary);
+    background: #232323;
+    margin-left: 20.5rem;
+    margin-bottom: 0;
+    display: block;
+    box-shadow:
+      100px -40px 900px 50px #EFBF0488, /* mjukare, bredare glow mot hörnet */
+      0 0 32px 0 #EFBF0444;             /* mjuk cirkulär glow */       /* mjukare cirkulär glow */
+  }
+  #home h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2em;
+  }
+  #home h2, #home .home-title-sub {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.7em;
+  }
+  #home p, #home .home-desc {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  #home .home-text-col {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center; 
+  }
+ 
+  @media (max-width: 767.98px) {
+    #home .row.home-row {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    #home .profile-img-home {
+      width: 280px;
+      height: 280px;
+      margin-left: 0;
+      margin-bottom: 1.2rem;
+    }
+    #home .col-md-5,
+    #home .col-md-7 {
+      width: 100%;
+      max-width: 100%;
+      flex: 0 0 100%;
+      display: block;
+    }
+    #home .home-text-col {
+      margin-left: 0;
+      text-align: center;
+    }
+    #home h1 {
+      font-size: 2rem;
+      text-align: center;
+    }
+    #home h2, #home .home-title-sub {
+      font-size: 1.2rem;
+    }
+    #home p, #home .home-desc {
+      font-size: 1rem;
+      text-align: center;
+    }
+    #home .home-connect-btn {
+      display: block;
+      margin: 1.5rem auto 0 auto;
+      text-align: center;
+    }
+  }
+ 
   
   /* Formulär */
   .form-control {
@@ -379,6 +454,7 @@
     .sidebar-link {
       padding: 0.75rem 0.5rem;
       margin: 0 0.25rem;
+      
     }
     
     .content-wrap {
@@ -424,3 +500,6 @@
     color: var(--primary);
     border: 0.0625rem solid var(--primary);
   }
+
+
+
