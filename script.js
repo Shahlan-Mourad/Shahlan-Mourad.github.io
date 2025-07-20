@@ -59,7 +59,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const windowHeight = window.innerHeight;
 
         let targetPosition;
-        if (sectionHeight < windowHeight) {
+        if (targetId === "#about") {
+          // Scrolla så att mitten av about hamnar i mitten av fönstret
+          targetPosition = targetElement.offsetTop - ((windowHeight - sectionHeight) / 2);
+        } else if (sectionHeight < windowHeight) {
           // Centrera sektionen vertikalt
           targetPosition = targetElement.offsetTop - ((windowHeight - sectionHeight) / 2);
         } else {
@@ -118,6 +121,34 @@ document.addEventListener('DOMContentLoaded', function() {
   if (oldHome) oldHome.remove();
 
   contentArea.prepend(homeSection);
+})();
+
+// Dynamiskt skapa about-sektionen
+(function() {
+  const aboutSection = document.getElementById('about');
+  if (!aboutSection) return;
+  aboutSection.innerHTML = `
+    <div class="row about-row align-items-center">
+      <div class="col-md-5 about-img-col d-flex justify-content-center align-items-center">
+        <img src="img/img1.png" alt="Shahlan Mourad" class="about-img">
+      </div>
+      <div class="col-md-7 about-text-col">
+        <h2 class="about-title">About Me</h2>
+        <h3 class="about-subtitle">
+          I'm <span class="about-name">Shahlan Mourad</span>, <span class="about-role">.NET Developer</span>
+        </h3>
+        <p class="about-desc">
+          I am a dedicated system developer with a strong focus on .NET technologies. I enjoy building robust and scalable applications, and I am always eager to learn new things and improve my skills. Currently, I am working on projects that enhance productivity and collaboration for remote teams.
+        </p>
+      </div>
+      <ul class="about-info">
+          <li><span class="about-label">⌛ Experience:</span> 1+ years</li>
+          <li><span class="about-label">🟢 Availability:</span> 24/7</li>
+          <li><span class="about-label">🎂 Age:</span> 27</li>
+          <li><span class="about-label">💻 Language:</span> C#, .NET</li>
+        </ul>
+    </div>
+  `;
 })();
 
 // Projektdata (alla projekt du nämnt)
