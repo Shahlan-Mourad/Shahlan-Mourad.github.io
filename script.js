@@ -209,8 +209,10 @@ window.renderSkills = async function() {
     <div class="card skill-card programming-languages-card">
       <div class="card-body">
         <h5 class="card-title"><i class="fa-solid fa-code" style="color: var(--primary);"></i> Programming Languages</h5>
-        <div class="skill-bar-group" id="github-skill-bars">
-          <div>Loading skills from GitHub...</div>
+        <div class="card-list-wrapper">
+          <div class="skill-bar-group" id="github-skill-bars">
+            <div>Loading skills from GitHub...</div>
+          </div>
         </div>
       </div>
     </div>
@@ -222,9 +224,11 @@ window.renderSkills = async function() {
       <div class="card skill-card">
         <div class="card-body">
           <h5 class="card-title">${group.icon} ${group.title}</h5>
-          <ul class="list-unstyled mb-0">
-            ${group.skills.map(skill => `<li class="skill-pill">${skillIcons[skill] || ''} <span class='skill-text'>${skill}</span></li>`).join('')}
-          </ul>
+          <div class="card-list-wrapper">
+            <ul class="list-unstyled mb-0">
+              ${group.skills.map(skill => `<li class="skill-pill">${skillIcons[skill] || ''} <span class='skill-text'>${skill}</span></li>`).join('')}
+            </ul>
+          </div>
         </div>
       </div>
     `;
