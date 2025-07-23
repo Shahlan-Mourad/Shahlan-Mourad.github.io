@@ -292,97 +292,160 @@ window.updateSkillBars = async function(skillIcons) {
 
 document.addEventListener('DOMContentLoaded', window.renderSkills);
 
+// Lista med projekt 
+// Konfiguration
+const GITHUB_CONFIG = {
+  username: 'Shahlan-Mourad',
+  ignoredRepos: new Set([
+    "Shahlan-Mourad.github.io", 
+    "Shahlan-Mourad", 
+    "UserRegistrationService", 
+    "Menu", 
+    "Receipt", 
+    "LibrarySystem"
+  ]),
+  apiUrl: 'https://api.github.com/users/Shahlan-Mourad/repos?per_page=100&sort=updated',
+  carouselZDistance: 300 // Avstånd för 3D-effekt i carousel
+};
 
-// Projektdata (alla projekt du nämnt)
-const projects = [
-  {
-    name: 'BookApp',
-    description: 'A web application for managing and browsing books.',
-    link: 'https://github.com/Shahlan-Mourad/BooksApp',
-    demo: '', // Lägg till demo-länk här senare om du vill
-    image: 'https://raw.githubusercontent.com/Shahlan-Mourad/BookApp/main/preview.png'
-  },
-  {
-    name: 'React-MusicgruppApp',
-    description: 'A React app for managing music groups and bands.',
-    link: 'https://github.com/Shahlan-Mourad/React-MusicgruppApp',
-    demo: 'https://ambitious-mushroom-0ad423703.6.azurestaticapps.net/',
-    image: 'https://raw.githubusercontent.com/Shahlan-Mourad/React-MusicgruppApp/main/preview.png'
-  },
-  {
-    name: 'MusicApp',
-    description: 'A music application for streaming and managing playlists.',
-    link: 'https://github.com/Shahlan-Mourad/MusicApp',
-    demo: '',
-    image: 'https://raw.githubusercontent.com/Shahlan-Mourad/MusicApp/main/preview.png'
-  },
-  {
-    name: 'BankSystem',
-    description: 'A basic banking system project.',
-    link: 'https://github.com/Shahlan-Mourad/BankSystem',
-    demo: '',
-    image: 'https://raw.githubusercontent.com/Shahlan-Mourad/BankSystem/main/preview.png'
-  },
-  {
-    name: 'SearchPhoneNumber',
-    description: 'A tool for searching phone numbers.',
-    link: 'https://github.com/Shahlan-Mourad/SearchPhoneNumber',
-    demo: '',
-    image: 'https://raw.githubusercontent.com/Shahlan-Mourad/SearchPhoneNumber/main/preview.png'
+// Lägg till demoLinks-lista
+const demoLinks = {
+  "BookApp": "https://mybookapp.azurewebsites.net/",
+  "React-MusicgruppApp": "https://ambitious-mushroom-0ad423703.6.azurestaticapps.net/"
+  // Lägg till fler projekt här när du publicerat dem
+};
+
+// Hjälpfunktioner
+const DOM = {
+  get: (id) => document.getElementById(id),
+  create: (tag, classes) => {
+    const el = document.createElement(tag);
+    if (classes) el.className = classes;
+    return el;
   }
-];
+};
 
-function loadProjects() {
-  const container = document.getElementById('projects-list');
-  container.innerHTML = '';
-  projects.forEach(proj => {
-    const col = document.createElement('div');
-    col.className = 'col-md-4 mb-4';
-    col.innerHTML = `
-      <div class="card h-100">
-        <img src="${proj.image}" class="card-img-top" alt="${proj.name}" onerror="this.style.display='none'">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">${proj.name}</h5>
-          <p class="card-text flex-grow-1">${proj.description}</p>
-          <div class="mt-auto pt-2 text-center">
-            <a href="${proj.link}" class="btn btn-outline-primary btn-sm" target="_blank">GitHub</a>
-            <a href="${proj.demo || '#'}" class="btn btn-primary btn-sm ms-2 ${!proj.demo ? 'disabled' : ''}" target="_blank">View</a>
-          </div>
-        </div>
-      </div>
-    `;
-    container.appendChild(col);
-  });
+const renderLoading = (element) => {
+  element.innerHTML = '<div class="loading-message">Loading projects from GitHub...</div>';
+};
+
+const renderError = (element, message) => {
+  element.innerHTML = `<div class="error-message">${message}</div>`;
+};
+
+const renderEmpty = (element) => {
+  element.innerHTML = '<div class="empty-message">No public projects found on GitHub.</div>';
+};
+
+// Huvudfunktion för att hämta projekt
+async function fetchProjects() {
+  try {
+    const response = await fetch(GITHUB_CONFIG.apiUrl);
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`);
+    }
+    const repos = await response.json();
+    if (!Array.isArray(repos)) {
+      throw new Error('Invalid response from GitHub API');
+    }
+    return repos.filter(repo => 
+      !GITHUB_CONFIG.ignoredRepos.has(repo.name) && 
+      !repo.fork && 
+      !repo.private
+    );
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    throw error;
+  }
 }
 
-// Kontaktformulär: visa tack-meddelande direkt på sidan
-window.addEventListener('DOMContentLoaded', function() {
-  loadProjects();
-  // Sätter aktuellt år i footern
-  const yearSpan = document.getElementById('footer-year');
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
-
-  // Hantera tack-meddelande för kontaktformulär
-  const form = document.getElementById('contact-form');
-  const successMsg = document.getElementById('contact-success');
-  const iframe = document.getElementById('hidden_iframe');
-  if (form && successMsg && iframe) {
-    form.addEventListener('submit', function() {
-      // Vänta på att iframen laddas (dvs. Formsubmit svarar)
-      iframe.onload = function() {
-        form.reset();
-        form.style.display = 'none';
-        successMsg.classList.remove('d-none');
-      };
+// Renderar projektlista
+async function loadProjects() {
+  const list = DOM.get('projects-list');
+  if (!list) return;
+  renderLoading(list);
+  try {
+    const projects = await fetchProjects();
+    if (projects.length === 0) {
+      renderEmpty(list);
+      return;
+    }
+    list.innerHTML = '';
+    projects.forEach(repo => {
+      const demoUrl = demoLinks[repo.name];
+      const card = DOM.create('div', 'card active');
+      card.innerHTML = `
+        <h5><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></h5>
+        <p>${repo.description || 'No description available'}</p>
+        <div class="repo-language">${repo.language || ''}</div>
+        <div class="mt-2">
+          <a href="${repo.html_url}" class="btn btn-outline-primary btn-sm" target="_blank">GitHub</a>
+          <a href="${demoUrl || '#'}" class="btn btn-primary btn-sm ms-2${!demoUrl ? ' disabled' : ''}" target="_blank">Azure</a>
+        </div>
+      `;
+      list.appendChild(card);
     });
+  } catch (error) {
+    renderError(list, 'Could not load projects from GitHub. Please try again later.');
   }
-});
+}
 
+// Renderar carousel
+async function renderProjectCarousel() {
+  const carousel = DOM.get('projects-carousel');
+  if (!carousel) return;
+  renderLoading(carousel);
+  try {
+    const projects = await fetchProjects();
+    if (projects.length === 0) {
+      renderEmpty(carousel);
+      return;
+    }
+    let currentIndex = 0;
+    const angleStep = 360 / projects.length;
+    const renderCards = () => {
+      carousel.innerHTML = '';
+      projects.forEach((project, index) => {
+        const demoUrl = demoLinks[project.name];
+        const card = DOM.create('div', 'carousel-card');
+        const angle = (index - currentIndex) * angleStep;
+        card.style.transform = `translateX(-50%) rotateY(${angle}deg) translateZ(${GITHUB_CONFIG.carouselZDistance}px)`;
+        card.innerHTML = `
+          <h5><a href="${project.html_url}" target="_blank" rel="noopener noreferrer">
+            ${project.name}
+          </a></h5>
+          <p>${project.description || 'No description available'}</p>
+          <div class="repo-language">${project.language || ''}</div>
+          <div class="mt-2">
+            <a href="${project.html_url}" class="btn btn-outline-primary btn-sm" target="_blank">GitHub</a>
+            <a href="${demoUrl || '#'}" class="btn btn-primary btn-sm ms-2${!demoUrl ? ' disabled' : ''}" target="_blank">View App</a>
+          </div>
+        `;
+        carousel.appendChild(card);
+      });
+    };
+    renderCards();
+    // Navigation
+    DOM.get('carousel-prev')?.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+      renderCards();
+    });
+    DOM.get('carousel-next')?.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % projects.length;
+      renderCards();
+    });
+  } catch (error) {
+    renderError(carousel, 'Could not load projects from GitHub. Please try again later.');
+  }
+}
 
+// Initialisering
+function init() {
+  loadProjects();
+  renderProjectCarousel();
+}
 
-
+document.addEventListener('DOMContentLoaded', init);
 
 
  
