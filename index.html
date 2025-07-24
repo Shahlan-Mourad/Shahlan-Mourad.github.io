@@ -43,28 +43,39 @@
     </div>
     <div id="contact" class="section">
       <div class="container">
-          <h2>Contact</h2>
-          <form id="contact-form" action="https://formsubmit.co/datakille97@gmail.com" method="POST" class="col-md-8 col-lg-6 mx-auto" target="hidden_iframe">
-            <div class="mb-3">
-              <label for="name" class="form-label">Name</label>
-              <input type="text" class="form-control" id="name" name="name" required>
+        <div class="contact-section">
+          <div class="contact-info">
+            <div>
+              <span class="icon"><i class="bi bi-geo-alt"></i></span>
+              <span class="label">Location</span><br>
+              Stockholm, Sweden
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" required>
+            <div>
+              <span class="icon"><i class="bi bi-envelope"></i></span>
+              <span class="label">Email</span><br>
+              shahlan.mourad@gmail.com
             </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">Message</label>
-              <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+            <div>
+              <span class="icon"><i class="bi bi-globe"></i></span>
+              <span class="label">Website</span><br>
+              shahlan-mourad.github.io
             </div>
-             <!-- Formsubmit settings -->
+          </div>
+          <!-- Minimal FormSubmit testformulär -->
+          <form class="contact-form-area" id="contact-form" action="https://formsubmit.co/datakille97@gmail.com" method="POST">
+            <h2 class="mb-0">Send me a message</h2>
+            <div style="display: flex; gap: 1rem;">
+              <input type="text" name="name" placeholder="Name" required style="flex:1;">
+              <input type="email" name="email" placeholder="Email" required style="flex:1;">
+            </div>
+            <textarea name="message" rows="5" placeholder="Type your message here..." required></textarea>
             <input type="hidden" name="_subject" value="New submission from your portfolio!">
             <input type="hidden" name="_captcha" value="false">
-
-            <button type="submit" class="btn btn-primary">Send</button>
+            <input type="hidden" name="_template" value="table">
+            <button type="submit">Send</button>
           </form>
-          <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-          <div id="contact-success" class="alert alert-success mt-3 d-none col-md-8 col-lg-6 mx-auto">Thank you for your message!</div>
+          <div id="contact-success" class="alert alert-success mt-3 d-none">Thank you for your message!</div>
+        </div>
       </div>
     </div>
   </div>
@@ -84,7 +95,7 @@
               width="60" height="60"
             />
             <h5 class="mb-1">Shahlan Mourad</h5>
-            <p class="text-muted mb-0">Full Stack Developer</p>
+            <p class="text">Full Stack Developer</p>
           </div>
         </div>
         <div class="col-md-4 text-center my-3 my-md-0">
@@ -107,7 +118,7 @@
               Built by Shahlan <i class="bi bi-code-slash footer-icon"></i>
             </span>
             <br />
-            <small class="text-muted">All rights reserved</small>
+            <small class="text">All rights reserved</small>
           </p>
         </div>
       </div>

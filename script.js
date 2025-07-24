@@ -87,6 +87,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initiera första gången
   updateActiveLink();
+
+  // Formulär
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('contact-success');
+  if (form && successMsg) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        if (response.ok) {
+          form.reset();
+          form.style.display = 'none';
+          successMsg.classList.remove('d-none');
+          setTimeout(() => {
+            form.style.display = '';
+            successMsg.classList.add('d-none');
+          }, 2000); // 2 sekunder
+        } else {
+          alert('Something went wrong. Please try again later.');
+        }
+      })
+      .catch(() => {
+        alert('Something went wrong. Please try again later.');
+      });
+    });
+  }
 });
 
 // Dynamiskt skapa home-sektionen med unik bildklass och modern design
