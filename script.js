@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       <div class="col-md-5 d-flex justify-content-center align-items-center order-1 order-md-2">
         <div class="profile-img-glow-frame">
-          <img src="https://github.com/Shahlan-Mourad.png" alt="Shahlan Mourad" class="profile-img-home">
+          <img src="https://github.com/Shahlan-Mourad.png" alt="Shahlan Mourad" class="profile-img-home" onerror="this.src='img/img1.png'">
         </div>
       </div>
     </div>
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <ul class="about-info">
           <li><span class="about-label">⌛ Experience:</span> 1+ years</li>
           <li><span class="about-label">🟢 Availability:</span> 24/7</li>
-          <li><span class="about-label">🎂 Age:</span> 27</li>
+          <li><span class="about-label">🎂 Age:</span> 28</li>
           <li><span class="about-label">💻 Language:</span> C#, .NET</li>
         </ul>
     </div>
