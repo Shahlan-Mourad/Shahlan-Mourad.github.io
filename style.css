@@ -3,71 +3,85 @@
 /* ======================
    VARIABLER & BASSTILAR
    ====================== */
-   :root {
-    --primary: #EFBF04;
-    --primary-dark: #b29005;
-    --primary-light: #EFBF04;
-    --bg: #252525;
-    --bg-alt: #232323;
-    --text: #f5f5f5;
-    --text-muted: #e0e0e0;
-    --card-bg: rgba(40, 40, 40, 0.85);
-    --shadow: 0 8px 32px 0 rgba(0,0,0,0.37), 0 0 16px 2px #EFBF0433;
-    --radius: 1.5rem;
-    --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
-    --card-width: clamp(220px, 40vw, 340px);
-    --card-height: clamp(180px, 40vw, 340px);
-    --card-padding: 1.2rem;
-    --card-radius: 1.5rem;
-    --card-shadow: 0 8px 32px 0 #EFBF0444, 0 0 0.5rem #EFBF0444;
-    --title-size: 1.5rem;
-    --title-color: var(--primary);
+:root {
+  --primary: #EFBF04;
+  --primary-dark: #b29005;
+  --primary-light: #FFE066;
+  --bg: #252525;
+  --bg-alt: #232323;
+  --text: #f5f5f5;
+  --text-muted: #e0e0e0;
+  --card-bg: rgba(40, 40, 40, 0.85);
+  --shadow: 0 8px 32px 0 rgba(0,0,0,0.37), 0 0 16px 2px #EFBF0433;
+  --radius: 1.5rem;
+  --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+  --card-width: clamp(220px, 40vw, 340px);
+  --card-height: clamp(180px, 40vw, 340px);
+  --card-padding: 1.2rem;
+  --card-radius: 1.5rem;
+  --card-shadow: 0 8px 32px 0 #EFBF0444, 0 0 0.5rem #EFBF0444;
+  --title-size: 1.5rem;
+  --title-color: var(--primary);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.content-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 11.25rem;
+  transition: margin var(--transition), padding var(--transition);
+}
+
+.section {
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  text-align: center;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section h2,
+.section .mb-5.text-center {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .content-wrap {
+    padding-left: 0;
+    max-width: 98vw;
   }
-  
-  /* ======================
-     BASSTILAR & LAYOUT
-     ====================== */
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Poppins', Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: auto;
-    margin: 0;
+}
+
+@media (max-width: 767.98px) {
+  .section h2,
+  .section .mb-5.text-center {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
   .content-wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-left: 11.25rem;
-    transition: margin var(--transition), padding var(--transition);
+    padding-left: 0;
+    max-width: 100vw;
   }
-  .section {
-    min-height: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0rem 0rem;
-    text-align: center;
-    min-height: 80vh;
-  }
-  .section:last-of-type {
-    border-bottom: none;
-  }
-  .section h2, .section .mb-5.text-center {
-    font-size: 2.8rem;
-    font-weight: 900;
-    letter-spacing: 0.02em;
-    margin-bottom: 2.5rem;
-  }
-  @media (max-width: 767.98px) {
-    .section h2, .section .mb-5.text-center {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-  }
+}
   
   /* ======================
      SIDOBAR NAVIGATION
@@ -674,106 +688,136 @@
   /* ======================
      CONTACT
      ====================== */
+  /* Kontaktsektion - responsiv och tydlig */
+.contact-section {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem 2rem;
+  margin: 2rem auto;
+  max-width: 1100px;
+  color: var(--text);
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.contact-info {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: flex-start;
+}
+
+.contact-info .icon {
+  color: var(--primary);
+  font-size: 2rem;
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+.contact-info .label {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.contact-form-area {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contact-form-area input,
+.contact-form-area textarea {
+  background: var(--bg-alt) !important;
+  color: var(--text) !important;
+  border: 2px solid var(--primary) !important;
+  border-radius: var(--radius) !important;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: none !important;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.contact-form-area input:focus,
+.contact-form-area textarea:focus {
+  border-color: var(--primary-dark) !important;
+  outline: none !important;
+  box-shadow: 0 0 0.5rem var(--primary) !important;
+}
+
+.contact-form-area button {
+  background: var(--primary) !important;
+  color: var(--bg-alt) !important;
+  border: 2px solid var(--primary) !important;
+  border-radius: var(--radius) !important;
+  padding: 0.6rem 2.2rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s !important;
+  margin-left: auto !important;
+  display: block !important;
+}
+
+.contact-form-area button:hover {
+  background: var(--bg-alt) !important;
+  color: var(--primary) !important;
+  box-shadow: 0 0 1rem var(--primary) !important;
+}
+
+/* Responsivitet för kontaktsektionen */
+@media (max-width: 900px) {
   .contact-section {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 2.5rem 2rem;
-    margin: 2rem auto;
-    max-width: 1100px;
-    color: var(--text);
-    display: flex;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-  }
-  
-  .contact-info {
-    flex: 1 1 260px;
-    display: flex;
     flex-direction: column;
     gap: 2rem;
-    justify-content: flex-start;
+    padding: 1.5rem 0.5rem;
+    max-width: 95%;
+    margin: 2rem auto;
   }
-  
-  .contact-info .icon {
-    color: var(--primary);
-    font-size: 2rem;
-    margin-right: 1rem;
-    vertical-align: middle;
-  }
-  
-  .contact-info .label {
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 1.1rem;
-  }
-  
   .contact-form-area {
-    flex: 2 1 400px;
-    display: flex;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .contact-section {
     flex-direction: column;
     gap: 1.2rem;
+    padding: 1rem 0.5rem;
+    max-width: 100%;
+    margin: 1rem auto;
   }
-  
+  .contact-info,
+  .contact-form-area {
+    width: 100% !important;
+    min-width: 0;
+    flex: 1 1 100%;
+    padding: 0;
+  }
+  .contact-form-area h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .contact-form-area > div {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    display: flex !important;
+  }
   .contact-form-area input,
   .contact-form-area textarea {
-    background: var(--bg-alt) !important;
-    color: var(--text) !important;
-    border: 2px solid var(--primary) !important;
-    border-radius: var(--radius) !important;
-    padding: 0.8rem 1rem;
     font-size: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: none !important;
-    transition: border 0.3s, box-shadow 0.3s;
+    width: 100% !important;
+    margin-bottom: 0.7rem;
   }
-  
-  .contact-form-area input:focus,
-  .contact-form-area textarea:focus {
-    border-color: var(--primary-dark) !important;
-    outline: none !important;
-    box-shadow: 0 0 0.5rem var(--primary) !important;
-  }
-  
   .contact-form-area button {
-    background: var(--primary) !important;
-    color: var(--bg-alt) !important;
-    border: 2px solid var(--primary) !important;
-    border-radius: var(--radius) !important;
-    padding: 0.6rem 2.2rem !important;
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    transition: background 0.3s, color 0.3s, box-shadow 0.3s !important;
-    margin-left: auto !important;
-    display: block !important;
+    width: 100%;
+    margin-left: 0 !important;
   }
-  
-  .contact-form-area button:hover {
-    background: var(--bg-alt) !important;
-    color: var(--primary) !important;
-    box-shadow: 0 0 1rem var(--primary) !important;
-  }
-  
-  @media (max-width: 900px) {
-    .contact-section {
-      flex-direction: column;
-      gap: 2rem;
-      padding: 1.5rem 0.5rem;
-      max-width: 95%;
-      margin: 2rem auto;
-    }
-    .contact-form-area {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 767.98px) {
-    .contact-section {
-      max-width: 98%;
-      padding: 1rem 0.5rem;
-      margin: 1rem auto;
-    }
-  }
+}
   
   /* ======================
      KNAPPAR
