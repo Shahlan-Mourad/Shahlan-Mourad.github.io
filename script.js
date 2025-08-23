@@ -421,52 +421,93 @@ async function loadProjects() {
   }
 }
 
-// Renderar carousel
+// Egna slides att fylla med bilder/video. Lämna tom för GitHub-projekt.
+const customSlides = [];
+
+// Renderar Swiper coverflow i vanilla JS (matchar bilden, behåller färgerna)
 async function renderProjectCarousel() {
-  const carousel = DOM.get('projects-carousel');
-  if (!carousel) return;
-  renderLoading(carousel);
+  const swiperEl = document.getElementById('projects-swiper');
+  const wrapper = document.getElementById('projects-swiper-wrapper');
+  if (!swiperEl || !wrapper) return;
+  wrapper.innerHTML = '<div class="loading-message">Loading projects from GitHub...</div>';
   try {
     const projects = await fetchProjects();
-    if (projects.length === 0) {
-      renderEmpty(carousel);
-      return;
-    }
-    let currentIndex = 0;
-    const angleStep = 360 / projects.length;
-    const renderCards = () => {
-      carousel.innerHTML = '';
-      projects.forEach((project, index) => {
-        const demoUrl = demoLinks[project.name];
-        const card = DOM.create('div', 'carousel-card');
-        const angle = (index - currentIndex) * angleStep;
-        card.style.transform = `translateX(-50%) rotateY(${angle}deg) translateZ(${GITHUB_CONFIG.carouselZDistance}px)`;
-        card.innerHTML = `
-          <h5><a href="${project.html_url}" target="_blank" rel="noopener noreferrer">
-            ${project.name}
-          </a></h5>
-          <p>${project.description || 'No description available'}</p>
-          <div class="repo-language">${project.language || ''}</div>
-          <div class="mt-2">
-            <a href="${project.html_url}" class="btn btn-outline-primary btn-sm" target="_blank">GitHub</a>
-            <a href="${demoUrl || '#'}" class="btn btn-primary btn-sm ms-2${!demoUrl ? ' disabled' : ''}" target="_blank">View App</a>
-          </div>
-        `;
-        carousel.appendChild(card);
-      });
-    };
-    renderCards();
-    // Navigation
-    DOM.get('carousel-prev')?.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + projects.length) % projects.length;
-      renderCards();
+
+    // Datakälla: egna slides om de finns annars GitHub-repon
+    const slidesData = (customSlides && customSlides.length)
+      ? customSlides
+      : projects.map(repo => ({ title: repo.name, href: demoLinks[repo.name] || repo.html_url }));
+
+    // Skapa slides
+    wrapper.innerHTML = '';
+    slidesData.slice(0, 12).forEach(item => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      if (item.video) {
+        const video = document.createElement('video');
+        video.src = item.video;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.style.width = '100%';
+        video.style.height = '100%';
+        video.style.objectFit = 'cover';
+        video.style.borderRadius = '20px';
+        slide.appendChild(video);
+      } else if (item.image) {
+        slide.style.backgroundImage = `url('${item.image}')`;
+      } else {
+        // Temporär bakgrund om ingen bild finns
+        slide.style.background = 'radial-gradient(120% 100% at 50% 0%, #3a3a3a 0%, #232323 60%, #181818 100%)';
+      }
+      // Overlay med centrerad text/knapp utan inramning
+      slide.innerHTML += `
+        <div>
+          <h2>${(item.title||'').toString().toUpperCase()}</h2>
+          <a class="coverflow-btn" href="${item.href || '#'}" target="_blank" rel="noopener noreferrer">EXPLORE</a>
+        </div>
+      `;
+      wrapper.appendChild(slide);
     });
-    DOM.get('carousel-next')?.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % projects.length;
-      renderCards();
+
+    // Initiera Swiper
+    // eslint-disable-next-line no-undef
+    new Swiper('#projects-swiper', {
+      effect: 'coverflow',
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      spaceBetween: 48,
+      grabCursor: true,
+      simulateTouch: true,
+      touchRatio: 1,
+      touchAngle: 45,
+      resistanceRatio: 0.65,
+      longSwipesMs: 120,
+      threshold: 5,
+      coverflowEffect: {
+        rotate: 24,
+        stretch: 0,
+        depth: 180,
+        modifier: 1.3,
+        slideShadows: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      loop: slidesData.length > 3,
+      autoplay: false,
     });
   } catch (error) {
-    renderError(carousel, 'Could not load projects from GitHub. Please try again later.');
+    wrapper.innerHTML = `
+      <div class="loading-message" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 300px; gap: 1rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%;">
+        <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div style="color: var(--primary); font-size: 1.1rem; font-weight: 600;">Loading projects from GitHub...</div>
+      </div>
+    `;
   }
 }
 

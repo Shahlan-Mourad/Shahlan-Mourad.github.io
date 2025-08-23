@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
   <nav class="sidebar">
@@ -33,10 +34,9 @@
     <div id="projects" class="section">
       <div class="container">
           <h2 class="mb-4">Latest Projects</h2>
-          <div class="carousel mx-auto" id="projects-carousel"></div>
-          <div class="carousel-controls mb-3 text-center">
-            <button id="carousel-prev" class="btn btn-outline-primary me-2">&#8249;</button>
-            <button id="carousel-next" class="btn btn-outline-primary">&#8250;</button>
+          <div class="swiper my-coverflow" id="projects-swiper">
+            <div class="swiper-wrapper" id="projects-swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
           </div>
           
       </div>
@@ -81,6 +81,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="script.js"></script>
 
   <footer class="footer py-4">
