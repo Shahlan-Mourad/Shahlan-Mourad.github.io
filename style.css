@@ -632,7 +632,7 @@ svg {
   .card {
     margin-left: 0 !important;
     margin-bottom: 0;
-    left: 4rem !important;
+    /* left: 4rem !important; */
     width: 90vw;
     max-width: 340px;
     min-width: 220px;
