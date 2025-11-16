@@ -3,128 +3,197 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shahlan Mourad - Full Stack .NET Developer based in Stockholm, Sweden.">
   <title>Shahlan Mourad - .NET Developer</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Preconnect för snabbare laddning -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  
+  <!-- Critical CSS inline (minimal) -->
+  <style>
+    body { margin: 0; background: #0a0a0a; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
+    .page-loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 9999; }
+  </style>
+  
+  <!-- External Stylesheets - Async/Defer -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <!-- Fallback för browsers utan onload support -->
+  <noscript>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  </noscript>
 </head>
+
 <body>
-  <nav class="sidebar">
+  <!-- ========== SIDEBAR NAVIGATION ========== -->
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
     <ul>
-      <li><a href="#home" class="sidebar-link" id="link-home"><i class="bi bi-house"></i> </a></li>
-      <li><a href="#about" class="sidebar-link" id="link-about"><i class="bi bi-person"></i></a></li>
-      <li><a href="#skills" class="sidebar-link" id="link-skills"><i class="bi bi-cpu"></i> </a></li>
-      <li><a href="#projects" class="sidebar-link" id="link-projects"><i class="bi bi-kanban"></i> </a></li>
-      <li><a href="#contact" class="sidebar-link" id="link-contact"><i class="bi bi-envelope"></i> </a></li>
+      <li>
+        <a href="#home" class="sidebar-link" id="link-home" aria-label="Home section">
+          <i class="bi bi-house" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#about" class="sidebar-link" id="link-about" aria-label="About section">
+          <i class="bi bi-person" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#skills" class="sidebar-link" id="link-skills" aria-label="Skills section">
+          <i class="bi bi-cpu" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#projects" class="sidebar-link" id="link-projects" aria-label="Projects section">
+          <i class="bi bi-kanban" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#contact" class="sidebar-link" id="link-contact" aria-label="Contact section">
+          <i class="bi bi-envelope" aria-hidden="true"></i>
+        </a>
+      </li>
     </ul>
   </nav>
-  <!-- Main Content -->
-  <div class="container-fluid p-0 content-wrap ">
-    <!-- About section -->
-    <div id="about" class="section"></div>
-    <!-- Skills section -->
-    <div id="skills" class="section">
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <div class="container-fluid p-0 content-wrap">
+    
+    <!-- Home Section (Dynamically Generated) -->
+    <section id="home" class="section" aria-labelledby="home-title"></section>
+    
+    <!-- About Section (Dynamically Generated) -->
+    <section id="about" class="section" aria-labelledby="about-title"></section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="section" aria-labelledby="skills-title">
       <div class="container">
-        <h2 class="mb-5 text-center">My Tech Stack</h2>
+        <h2 id="skills-title" class="mb-5 text-center">My Tech Stack</h2>
         <div id="skills-content" class="row"></div>
       </div>
-    </div>
-    <div id="projects" class="section">
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="section" aria-labelledby="projects-title">
       <div class="container">
-          <h2 class="mb-4">Latest Projects</h2>
-          <div class="swiper my-coverflow" id="projects-swiper">
-            <div class="swiper-wrapper" id="projects-swiper-wrapper"></div>
-            <div class="swiper-pagination"></div>
-          </div>
-          
+        <h2 id="projects-title" class="mb-4">Latest Projects</h2>
+        <div class="swiper my-coverflow" id="projects-swiper">
+          <div class="swiper-wrapper" id="projects-swiper-wrapper"></div>
+          <div class="swiper-pagination"></div>
+        </div>
       </div>
-    </div>
-    <div id="contact" class="section">
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="section" aria-labelledby="contact-title">
       <div class="container">
         <div class="contact-section">
+          <!-- Contact Information -->
           <div class="contact-info">
             <div>
-              <span class="icon"><i class="bi bi-geo-alt"></i></span>
-              <span class="label">Location</span><br>
+              <span class="icon"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
               Stockholm, Sweden
             </div>
             <div>
-              <span class="icon"><i class="bi bi-envelope"></i></span>
-              <span class="label">Email</span><br>
-              shahlan.mourad@gmail.com
-            </div>
-            <div>
-              <span class="icon"><i class="bi bi-globe"></i></span>
-              <span class="label">Website</span><br>
-              shahlan-mourad.github.io
+              <span class="icon"><i class="bi bi-envelope" aria-hidden="true"></i></span>
+              <a href="mailto:shahlan.mourad@gmail.com">shahlan.mourad@gmail.com</a>
             </div>
           </div>
-          <!-- Minimal FormSubmit testformulär -->
+          
+          <!-- Contact Form -->
           <form class="contact-form-area" id="contact-form" action="https://formsubmit.co/datakille97@gmail.com" method="POST">
-            <h2 class="mb-0">Send me a message</h2>
+            <h2 id="contact-title" class="mb-0">Send me a message</h2>
             <div style="display: flex; gap: 1rem;">
-              <input type="text" name="name" placeholder="Name" required style="flex:1;">
-              <input type="email" name="email" placeholder="Email" required style="flex:1;">
+              <input type="text" name="name" placeholder="Name" required style="flex:1;" aria-label="Your name">
+              <input type="email" name="email" placeholder="Email" required style="flex:1;" aria-label="Your email">
             </div>
-            <textarea name="message" rows="5" placeholder="Type your message here..." required></textarea>
+            <textarea name="message" rows="5" placeholder="Type your message here..." required aria-label="Your message"></textarea>
+            
+            <!-- Hidden FormSubmit Configuration -->
             <input type="hidden" name="_subject" value="New submission from your portfolio!">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
+            
             <button type="submit">Send</button>
           </form>
-          <div id="contact-success" class="alert alert-success mt-3 d-none">Thank you for your message!</div>
+          
+          <!-- Success Message -->
+          <div id="contact-success" class="alert alert-success mt-3 d-none" role="alert">
+            Thank you for your message!
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+    
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="script.js"></script>
-
-  <footer class="footer py-4">
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer py-4" role="contentinfo">
     <div class="container">
       <div class="row align-items-center">
+        
+        <!-- Developer Info -->
         <div class="col-md-4 text-center text-md-start">
           <div class="developer-info">
             <img 
               src="https://github.com/Shahlan-Mourad.png" 
-              alt="Shahlan Mourad" 
+              alt="Shahlan Mourad profile picture" 
               class="profile-image mb-2 rounded-circle" 
-              width="60" height="60"
+              width="60" 
+              height="60"
               onerror="this.src='img/img1.png'"
+              loading="lazy"
             />
             <h5 class="mb-1">Shahlan Mourad</h5>
             <p class="text">Full Stack Developer</p>
           </div>
         </div>
+        
+        <!-- Social Links -->
         <div class="col-md-4 text-center my-3 my-md-0">
           <div class="social-links">
-            <a href="https://github.com/Shahlan-Mourad" target="_blank" rel="noopener noreferrer" class="social-link mx-2">
-              <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+            <a href="https://github.com/Shahlan-Mourad" target="_blank" rel="noopener noreferrer" class="social-link mx-2" aria-label="GitHub profile">
+              <i class="bi bi-github" style="font-size: 1.5rem;" aria-hidden="true"></i>
             </a>
-            <a href="mailto:shahlan.mourad@gmail.com" class="social-link mx-2">
-              <i class="bi bi-envelope" style="font-size: 1.5rem;"></i>
+            <a href="mailto:shahlan.mourad@gmail.com" class="social-link mx-2" aria-label="Email contact">
+              <i class="bi bi-envelope" style="font-size: 1.5rem;" aria-hidden="true"></i>
             </a>
-            <a href="https://www.linkedin.com/in/shahlan-mourad-30256a335" target="_blank" rel="noopener noreferrer" class="social-link mx-2">
-              <i class="bi bi-linkedin" style="font-size: 1.5rem;"></i>
+            <a href="https://www.linkedin.com/in/shahlan-mourad-30256a335" target="_blank" rel="noopener noreferrer" class="social-link mx-2" aria-label="LinkedIn profile">
+              <i class="bi bi-linkedin" style="font-size: 1.5rem;" aria-hidden="true"></i>
             </a>
           </div>
         </div>
+        
+        <!-- Copyright -->
         <div class="col-md-4 text-center text-md-end">
           <p class="mb-0">
             © <span id="footer-year"></span> 
             <span class="footer-credit">
-              Built by Shahlan <i class="bi bi-code-slash footer-icon"></i>
+              Built by Shahlan <i class="bi bi-code-slash footer-icon" aria-hidden="true"></i>
             </span>
             <br />
             <small class="text">All rights reserved</small>
           </p>
         </div>
+        
       </div>
     </div>
   </footer>
+
+  <!-- ========== EXTERNAL SCRIPTS ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
+  <!-- Custom Script -->
+  <script src="script.js"></script>
 </body>
-</html> 
+</html>
