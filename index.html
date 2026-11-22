@@ -3,33 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Shahlan Mourad - Full Stack .NET Developer based in Stockholm, Sweden.">
+  <meta name="description" content="Shahlan Mourad - .NET developer in Stockholm, Sweden, building web applications with C#, ASP.NET Core, React and Angular.">
   <title>Shahlan Mourad - .NET Developer</title>
-  
-  <!-- Preconnect för snabbare laddning -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Link preview (LinkedIn, Slack, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shahlan-mourad.github.io/">
+  <meta property="og:title" content="Shahlan Mourad - .NET Developer">
+  <meta property="og:description" content=".NET developer in Stockholm, Sweden, building web applications with C#, ASP.NET Core, React and Angular.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/179486910?v=4">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Preconnect for faster loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  
+
   <!-- Critical CSS inline (minimal) -->
   <style>
     body { margin: 0; background: #0a0a0a; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
     .page-loader { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 9999; }
   </style>
-  
-  <!-- External Stylesheets - Async/Defer -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
+
+  <!-- External stylesheets, loaded without blocking rendering -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.2.10/swiper-bundle.min.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="style.css">
-  
-  <!-- Fallback för browsers utan onload support -->
+
+  <!-- Fallback for browsers without JavaScript -->
   <noscript>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.2.10/swiper-bundle.min.css">
   </noscript>
 </head>
 
@@ -110,25 +119,38 @@
           </div>
           
           <!-- Contact Form -->
-          <form class="contact-form-area" id="contact-form" action="https://formsubmit.co/datakille97@gmail.com" method="POST">
+          <form class="contact-form-area" id="contact-form" action="https://formsubmit.co/ajax/shahlan.mourad@gmail.com" method="POST">
             <h2 id="contact-title" class="mb-0">Send me a message</h2>
-            <div style="display: flex; gap: 1rem;">
-              <input type="text" name="name" placeholder="Name" required style="flex:1;" aria-label="Your name">
-              <input type="email" name="email" placeholder="Email" required style="flex:1;" aria-label="Your email">
+            <div class="contact-form-row">
+              <div class="contact-field">
+                <label for="contact-name">Name</label>
+                <input type="text" id="contact-name" name="name" autocomplete="name" required>
+              </div>
+              <div class="contact-field">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email" autocomplete="email" required>
+              </div>
             </div>
-            <textarea name="message" rows="5" placeholder="Type your message here..." required aria-label="Your message"></textarea>
-            
-            <!-- Hidden FormSubmit Configuration -->
-            <input type="hidden" name="_subject" value="New submission from your portfolio!">
-            <input type="hidden" name="_captcha" value="false">
+            <div class="contact-field">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows="5" required></textarea>
+            </div>
+
+            <!-- Hidden FormSubmit configuration -->
+            <input type="hidden" name="_subject" value="New message from your portfolio">
             <input type="hidden" name="_template" value="table">
-            
+            <!-- Honeypot: hidden from people, spam bots fill it in and FormSubmit drops the message -->
+            <input type="text" name="_honey" class="d-none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
             <button type="submit">Send</button>
           </form>
-          
-          <!-- Success Message -->
-          <div id="contact-success" class="alert alert-success mt-3 d-none" role="alert">
+
+          <!-- Status messages -->
+          <div id="contact-success" class="alert alert-success mt-3 d-none" role="status">
             Thank you for your message!
+          </div>
+          <div id="contact-error" class="alert alert-danger mt-3 d-none" role="alert">
+            Something went wrong. Please try again later or email me directly.
           </div>
         </div>
       </div>
@@ -148,13 +170,12 @@
               src="https://github.com/Shahlan-Mourad.png" 
               alt="Shahlan Mourad profile picture" 
               class="profile-image mb-2 rounded-circle" 
-              width="60" 
+              width="60"
               height="60"
-              onerror="this.src='img/img1.png'"
               loading="lazy"
             />
             <h5 class="mb-1">Shahlan Mourad</h5>
-            <p class="text">Full Stack Developer</p>
+            <p class="text">.NET Developer</p>
           </div>
         </div>
         
@@ -190,8 +211,8 @@
   </footer>
 
   <!-- ========== EXTERNAL SCRIPTS ========== -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.10/swiper-bundle.min.js"></script>
   
   <!-- Custom Script -->
   <script src="script.js"></script>

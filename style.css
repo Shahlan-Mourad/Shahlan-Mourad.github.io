@@ -218,12 +218,6 @@ html {
   animation: fadeInUp 0.8s ease forwards;
 }
 
-/* Parallax effect on sections */
-.section.parallax {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -1098,6 +1092,21 @@ html {
   animation: textFloat 2s ease-in-out infinite;
 }
 
+.my-coverflow .project-desc {
+  max-width: 85%;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.my-coverflow .project-lang {
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 @keyframes textFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
@@ -1237,6 +1246,30 @@ html {
 
 .contact-info .icon {
   margin-right: 0 !important;
+}
+
+.contact-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--gap-medium);
+}
+
+.contact-field {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.contact-field label {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+#contact-error {
+  border-radius: var(--radius);
 }
 
 .contact-form-area {
@@ -1747,10 +1780,6 @@ a:hover,
     width: 100% !important;
   }
 
-  .contact-form-area > div {
-    flex-direction: column !important;
-  }
-
   .contact-form-area button {
     width: 100%;
     margin-left: 0 !important;
@@ -1790,10 +1819,6 @@ a:hover,
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  
-  .section.parallax {
-    transform: none !important;
   }
 }
 

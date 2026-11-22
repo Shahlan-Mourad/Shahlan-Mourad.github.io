@@ -13,26 +13,6 @@
 // CONFIGURATION & CONSTANTS
 // ==========================================
 
-const CONFIG = {
-  github: {
-    username: 'Shahlan-Mourad',
-    ignoredRepos: new Set([
-      'Shahlan-Mourad.github.io',
-      'Shahlan-Mourad',
-      'UserRegistrationService',
-      'Menu',
-      'Receipt',
-      'LibrarySystem'
-    ]),
-    apiUrl: 'https://api.github.com/users/Shahlan-Mourad/repos?per_page=100&sort=updated'
-  },
-  demoLinks: {
-    'BookApp': 'https://mybookapp.azurewebsites.net/',
-    'React-MusicgruppApp': 'https://ambitious-mushroom-0ad423703.6.azurestaticapps.net/'
-  },
-  customSlides: []
-};
-
 const SKILL_ICONS = {
   'C#': '<i class="fa-solid fa-code" style="color: var(--primary);"></i>',
   'HTML': '<i class="fab fa-html5" style="color: var(--primary);"></i>',
@@ -45,12 +25,38 @@ const SKILL_ICONS = {
   'Blazor': '<i class="fa-brands fa-microsoft" style="color: var(--primary);"></i>',
   'React': '<i class="fab fa-react" style="color: var(--primary);"></i>',
   'Angular': '<i class="fab fa-angular" style="color: var(--primary);"></i>',
-  'MongoDB': '<svg style="width:1.2em;height:1.2em;vertical-align:middle;fill:var(--primary);" viewBox="0 0 24 24"><path d="M12 0C5.371 0 0 5.371 0 12c0 6.629 5.371 12 12 12s12-5.371 12-12c0-6.629-5.371-12-12-12zm0 22.153c-5.605 0-10.153-4.548-10.153-10.153S6.395 1.847 12 1.847 22.153 6.395 22.153 12 17.605 22.153 12 22.153zm2.153-10.153h-1.153v-1.153h1.153V12zm-2.153 0h-1.153v-1.153h1.153V12zm-2.153 0H8.847v-1.153h1.153V12z"/></svg>',
-  'MySQL': '<i class="fas fa-database" style="color: var(--primary);"></i>',
+  'Entity Framework Core': '<i class="fa-brands fa-microsoft" style="color: var(--primary);"></i>',
+  'PostgreSQL': '<i class="fas fa-database" style="color: var(--primary);"></i>',
+  'SQL Server': '<i class="fas fa-database" style="color: var(--primary);"></i>',
+  'MongoDB': '<i class="fa-solid fa-leaf" style="color: var(--primary);"></i>',
   'SQLite': '<i class="fas fa-database" style="color: var(--primary);"></i>',
+  'Azure': '<i class="fa-solid fa-cloud" style="color: var(--primary);"></i>',
+  'Azure DevOps': '<i class="fa-solid fa-infinity" style="color: var(--primary);"></i>',
+  'GitHub Actions': '<i class="fa-solid fa-gears" style="color: var(--primary);"></i>',
   'Git': '<i class="fab fa-git-alt" style="color: var(--primary);"></i>',
   'GitHub': '<i class="fab fa-github" style="color: var(--primary);"></i>',
-  'Docker': '<i class="fab fa-docker" style="color: var(--primary);"></i>'
+  'Docker': '<i class="fab fa-docker" style="color: var(--primary);"></i>',
+  'Claude': '<i class="fa-solid fa-robot" style="color: var(--primary);"></i>',
+  'GitHub Copilot': '<i class="fa-solid fa-robot" style="color: var(--primary);"></i>'
+};
+
+// Escapes text from the GitHub API before it is put into HTML.
+const escapeHtml = (text) => String(text ?? '').replace(/[&<>"']/g, (c) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+}[c]));
+
+// Projects and languages come from data/github.json, which the deploy workflow
+// builds with scripts/update-github-data.mjs. Loaded once and shared by
+// Skills and Projects, so visitors never call the GitHub API themselves.
+const GitHubData = {
+  promise: null,
+  load() {
+    this.promise ??= fetch('data/github.json').then((response) => {
+      if (!response.ok) throw new Error(`Could not load data/github.json: ${response.status}`);
+      return response.json();
+    });
+    return this.promise;
+  }
 };
 
 // ==========================================
@@ -91,50 +97,8 @@ class LoadingManager {
   }
 
   hide() {
-    setTimeout(() => {
-      this.loader.classList.add('hidden');
-      setTimeout(() => this.loader.remove(), 500);
-    }, 1000);
-  }
-}
-
-// ==========================================
-// PARALLAX EFFECTS MANAGER
-// ==========================================
-
-class ParallaxManager {
-  constructor() {
-    this.elements = [];
-    this.init();
-  }
-
-  init() {
-    // Add parallax class to sections
-    DOM.queryAll('.section').forEach((el, index) => {
-      el.classList.add('parallax');
-      this.elements.push({
-        element: el,
-        speed: 0.3 + (index * 0.1)
-      });
-    });
-
-    window.addEventListener('scroll', () => this.update(), { passive: true });
-  }
-
-  update() {
-    const scrolled = window.pageYOffset;
-    
-    this.elements.forEach(({ element, speed }) => {
-      const elementTop = element.offsetTop;
-      const elementHeight = element.offsetHeight;
-      const windowHeight = window.innerHeight;
-      
-      // Only apply parallax if element is in viewport
-      if (scrolled + windowHeight > elementTop && scrolled < elementTop + elementHeight) {
-        const yPos = -(scrolled - elementTop) * speed;
-        element.style.transform = `translateY(${yPos}px)`;
-      }
-    });
+    this.loader.classList.add('hidden');
+    setTimeout(() => this.loader.remove(), 500);
   }
 }
 
@@ -255,48 +219,6 @@ class AnimatedSkillBars {
 }
 
 // ==========================================
-// SCROLL ANIMATIONS MANAGER
-// ==========================================
-
-class ScrollAnimations {
-  constructor() {
-    this.init();
-  }
-
-  init() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = 'running';
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    // Observe all sections
-    DOM.queryAll('.section').forEach(section => {
-      observer.observe(section);
-    });
-
-    // Add smooth scroll behavior
-    DOM.queryAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = DOM.query(anchor.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          });
-        }
-      });
-    });
-  }
-}
-
-// ==========================================
 // NAVIGATION MANAGER
 // ==========================================
 
@@ -392,6 +314,7 @@ class ContactFormHandler {
   constructor() {
     this.form = DOM.get('contact-form');
     this.successMsg = DOM.get('contact-success');
+    this.errorMsg = DOM.get('contact-error');
     this.init();
   }
 
@@ -419,6 +342,9 @@ class ContactFormHandler {
   async handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(this.form);
+    const button = this.form.querySelector('button[type="submit"]');
+    this.errorMsg.classList.add('d-none');
+    button.disabled = true;
 
     try {
       const response = await fetch(this.form.action, {
@@ -426,8 +352,9 @@ class ContactFormHandler {
         body: formData,
         headers: { 'Accept': 'application/json' }
       });
+      const result = await response.json().catch(() => ({}));
 
-      if (response.ok) {
+      if (response.ok && String(result.success) === 'true') {
         this.showSuccess();
       } else {
         this.showError();
@@ -435,6 +362,8 @@ class ContactFormHandler {
     } catch (error) {
       console.error('Form submission error:', error);
       this.showError();
+    } finally {
+      button.disabled = false;
     }
   }
 
@@ -450,7 +379,7 @@ class ContactFormHandler {
   }
 
   showError() {
-    alert('Something went wrong. Please try again later.');
+    this.errorMsg.classList.remove('d-none');
   }
 }
 
@@ -474,12 +403,12 @@ class SectionGenerator {
             <span class="home-title-main">Hi! I'm Shahlan,</span><br>
             <span class="home-title-sub">.NET Developer</span>
           </h1>
-          <p class="mb-4 home-desc">I am a passionate .NET developer based in Stockholm, focused on building robust and scalable applications.</p>
+          <p class="mb-4 home-desc">A .NET developer in Stockholm who turns complex requirements into efficient, scalable software with C#, ASP.NET Core and modern frontend frameworks.</p>
           <a href="#contact" class="btn btn-primary btn-lg home-connect-btn">Let's Connect</a>
         </div>
         <div class="col-md-5 d-flex justify-content-center align-items-center order-1 order-md-2">
           <div class="profile-img-glow-frame">
-            <img src="https://github.com/Shahlan-Mourad.png" alt="Shahlan Mourad" class="profile-img-home" onerror="this.src='img/img1.png'" loading="lazy">
+            <img src="https://github.com/Shahlan-Mourad.png" alt="Shahlan Mourad" class="profile-img-home">
           </div>
         </div>
       </div>
@@ -502,15 +431,16 @@ class SectionGenerator {
           I'm <span class="about-name">Shahlan Mourad</span>, <span class="about-role">.NET Developer</span>
         </h3>
         <p class="about-desc">
-          I am a dedicated system developer with a strong focus on .NET technologies. I enjoy building robust and scalable applications, 
-          and I am always eager to learn new things and improve my skills. Currently, 
-          I am working on projects that enhance productivity and collaboration for remote teams.
+          I am a committed .NET developer with a strong interest in problem solving and modern software development.
+          I do my best work in teams where I can use analytical thinking to turn complex requirements into
+          efficient, scalable code. Before I moved into software, I spent several years leading teams and improving
+          workflows in logistics, which taught me planning, responsibility and how to deliver every day.
         </p>
         <ul class="about-info">
-          <li><span class="about-label">⌛ Experience:</span> 1+ years</li>
-          <li><span class="about-label">🟢 Availability:</span> 24/7</li>
-          <li><span class="about-label">🎂 Age:</span> 28</li>
-          <li><span class="about-label">💻 Language:</span> C#, .NET</li>
+          <li><span class="about-label">💼 Experience:</span> System Developer, Need2Code AB (2025–2026)</li>
+          <li><span class="about-label">🎓 Education:</span> .NET Developer, Newton Vocational University (2026)</li>
+          <li><span class="about-label">📍 Location:</span> Stockholm, Sweden</li>
+          <li><span class="about-label">🌐 Languages:</span> Kurdish, Swedish, Arabic, English</li>
         </ul>
       </div>
     `;
@@ -530,17 +460,22 @@ class SkillsManager {
       {
         title: 'Frameworks & Libraries',
         icon: '<i class="fa-solid fa-layer-group" style="color: var(--primary);"></i>',
-        skills: ['.NET', 'ASP.NET Core', 'Blazor', 'React', 'Angular']
+        skills: ['.NET', 'ASP.NET Core', 'Entity Framework Core', 'Blazor', 'React', 'Angular']
       },
       {
         title: 'Databases',
         icon: '<i class="fas fa-database" style="color: var(--primary);"></i>',
-        skills: ['MongoDB', 'MySQL', 'SQLite']
+        skills: ['PostgreSQL', 'SQL Server', 'SQLite', 'MongoDB']
       },
       {
-        title: 'Tools',
+        title: 'DevOps & Cloud',
+        icon: '<i class="fa-solid fa-cloud" style="color: var(--primary);"></i>',
+        skills: ['Azure', 'Azure DevOps', 'GitHub Actions', 'Docker']
+      },
+      {
+        title: 'Tools & AI',
         icon: '<i class="fa-solid fa-screwdriver-wrench" style="color: var(--primary);"></i>',
-        skills: ['Git', 'GitHub', 'Docker']
+        skills: ['Git', 'GitHub', 'GitHub Copilot', 'Claude']
       }
     ];
 
@@ -603,23 +538,9 @@ class SkillsManager {
     `;
 
     try {
-      const response = await fetch(`https://api.github.com/users/${CONFIG.github.username}/repos?per_page=100`);
-      const repos = await response.json();
+      const { languages } = await GitHubData.load();
 
-      const langTotals = {};
-
-      for (const repo of repos) {
-        if (!repo.languages_url) continue;
-
-        const langResponse = await fetch(repo.languages_url);
-        const langs = await langResponse.json();
-
-        for (const [lang, bytes] of Object.entries(langs)) {
-          langTotals[lang] = (langTotals[lang] || 0) + bytes;
-        }
-      }
-
-      const sorted = Object.entries(langTotals)
+      const sorted = Object.entries(languages)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 6);
 
@@ -633,7 +554,7 @@ class SkillsManager {
         const icon = SKILL_ICONS[lang] || '';
 
         item.innerHTML = `
-          ${icon} <span class='skill-text'>${lang}</span>
+          ${icon} <span class='skill-text'>${escapeHtml(lang)}</span>
           <div class="skill-bar">
             <div class="skill-bar-fill" style="width: ${percent}%;"></div>
           </div>
@@ -662,31 +583,6 @@ class SkillsManager {
 // ==========================================
 
 class ProjectsManager {
-  static async fetchProjects() {
-    try {
-      const response = await fetch(CONFIG.github.apiUrl);
-
-      if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status}`);
-      }
-
-      const repos = await response.json();
-
-      if (!Array.isArray(repos)) {
-        throw new Error('Invalid response from GitHub API');
-      }
-
-      return repos.filter(repo =>
-        !CONFIG.github.ignoredRepos.has(repo.name) &&
-        !repo.fork &&
-        !repo.private
-      );
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-      throw error;
-    }
-  }
-
   static async renderCarousel() {
     const swiperEl = DOM.get('projects-swiper');
     const wrapper = DOM.get('projects-swiper-wrapper');
@@ -696,39 +592,20 @@ class ProjectsManager {
     wrapper.innerHTML = '<div class="loading-message">Loading projects from GitHub...</div>';
 
     try {
-      const projects = await this.fetchProjects();
-
-      const slidesData = (CONFIG.customSlides && CONFIG.customSlides.length)
-        ? CONFIG.customSlides
-        : projects.map(repo => ({
-            title: repo.name,
-            href: CONFIG.demoLinks[repo.name] || repo.html_url
-          }));
+      const { projects: slidesData } = await GitHubData.load();
 
       wrapper.innerHTML = '';
 
-      slidesData.slice(0, 12).forEach(item => {
+      slidesData.forEach(repo => {
         const slide = DOM.create('div', 'swiper-slide');
+        slide.style.background = 'radial-gradient(120% 100% at 50% 0%, #3a3a3a 0%, #232323 60%, #181818 100%)';
 
-        if (item.video) {
-          const video = document.createElement('video');
-          video.src = item.video;
-          video.autoplay = true;
-          video.loop = true;
-          video.muted = true;
-          video.playsInline = true;
-          video.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:20px;';
-          slide.appendChild(video);
-        } else if (item.image) {
-          slide.style.backgroundImage = `url('${item.image}')`;
-        } else {
-          slide.style.background = 'radial-gradient(120% 100% at 50% 0%, #3a3a3a 0%, #232323 60%, #181818 100%)';
-        }
-
-        slide.innerHTML += `
+        slide.innerHTML = `
           <div>
-            <h2>${(item.title || '').toString().toUpperCase()}</h2>
-            <a class="coverflow-btn" href="${item.href || '#'}" target="_blank" rel="noopener noreferrer">EXPLORE</a>
+            <h2>${escapeHtml(repo.name.replace(/[-_]/g, ' ')).toUpperCase()}</h2>
+            ${repo.language ? `<span class="project-lang">${escapeHtml(repo.language)}</span>` : ''}
+            ${repo.description ? `<p class="project-desc">${escapeHtml(repo.description)}</p>` : ''}
+            <a class="coverflow-btn" href="${escapeHtml(repo.url)}" target="_blank" rel="noopener noreferrer">View code</a>
           </div>
         `;
 
@@ -926,24 +803,22 @@ class App {
     // Initialize all managers
     new NavigationManager();
     new ContactFormHandler();
-    new ParallaxManager();
-    new TiltEffectManager();
     new AnimatedSkillBars();
-    new ScrollAnimations();
     MicroInteractions.init();
-
-    // Render content
-    await SkillsManager.render();
-    await ProjectsManager.renderCarousel();
-
-    // Initialize footer
     FooterManager.init();
 
-    // Hide loading screen
+    // Render the skill cards and projects. The cards are created right away;
+    // GitHub data fills in afterwards, so the page does not wait for the API.
+    const githubContent = Promise.all([
+      SkillsManager.render(),
+      ProjectsManager.renderCarousel()
+    ]);
+    new TiltEffectManager();
+
+    // Show the page as soon as the static content is ready
     loadingManager.hide();
 
-    // Log success
-    console.log('%c🚀 Portfolio Loaded Successfully!', 'color: #FFD700; font-size: 20px; font-weight: bold;');
+    await githubContent;
   }
 }
 
@@ -954,14 +829,3 @@ class App {
 document.addEventListener('DOMContentLoaded', () => {
   App.init();
 });
-
-// Export for debugging (optional)
-if (typeof window !== 'undefined') {
-  window.PortfolioApp = {
-    ThemeToggle,
-    ParallaxManager,
-    TiltEffectManager,
-    AnimatedSkillBars,
-    MicroInteractions
-  };
-}
